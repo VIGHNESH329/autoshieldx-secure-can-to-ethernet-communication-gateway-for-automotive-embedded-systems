@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoShieldX — Hardware-Free Security Monitoring Demonstration</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1 class="logo-badge">AUTOSHIELDX</h1>
+        <div class="sub-title">Automotive Zero-Trust CAN Intrusion-Detection Platform (Demonstration Build)</div>
+      </div>
+      <div class="header-status">
+        <span class="status-indicator live"></span>
+        <span id="gateway-status" class="status-text">DEMO ENGINE ACTIVE</span>
+        <span class="digital-clock" id="clock">--:--:--.--</span>
+        <button class="badge" onclick="resetCounters()" style="cursor: pointer; border: none;">Reset Metrics</button>
+      </div>
+    </header>
+
+    <!-- Demonstration Notice Banner (Full Transparency) -->
+    <div class="hardware-disclaimer-banner">
+      <span class="badge-notice">PRESENTATION MODE</span>
+      Hardware-Free Demonstration Build active. Operating with integrated 20 Hz vehicle kinematics provider and deterministic ML behavioral-anomaly generator. Cryptographic authentication pipeline and ML heuristic anomaly detection rules fully preserved in software evaluation mode.
+    </div>
+
+    <!-- Security KPI Metric Cards -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Total Processed</div>
+        <div id="metric-total" class="kpi-value">0</div>
+        <div class="kpi-sub">Total inbound frames analyzed</div>
+      </div>
+      <div class="kpi-card success">
+        <div class="kpi-title">Valid Authenticated</div>
+        <div id="metric-valid" class="kpi-value text-success">0</div>
+        <div class="kpi-sub">Forwarded over Ethernet</div>
+      </div>
+      <div class="kpi-card danger">
+        <div class="kpi-title">Total Rejected</div>
+        <div id="metric-rejected" class="kpi-value text-danger">0</div>
+        <div class="kpi-sub">Dropped by security pipeline</div>
+      </div>
+      <div class="kpi-card warning">
+        <div class="kpi-title">HMAC Auth Failures</div>
+        <div id="metric-hmac" class="kpi-value text-warning">0</div>
+        <div class="kpi-sub">Integrity / Spoofing blocks</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-title">ML Behavioral Anomalies</div>
+        <div id="metric-ml" class="kpi-value text-purple">0</div>
+        <div class="kpi-sub">Frequency & Flow deviations</div>
+      </div>
+    </section>
+
+    <!-- Main Content: Left Vehicle Telemetry, Right Pipeline Status -->
+    <div class="content-split">
+      <!-- Live Telemetry Section -->
+      <section class="panel telemetry-panel">
+        <div class="panel-header">
+          <h2>Vehicle Sensor Telemetry (Local Dynamic Kinematics)</h2>
+          <span class="badge" id="telemetry-badge">STREAMING (20 Hz)</span>
+        </div>
+        <div class="gauge-grid">
+          <div class="gauge-box">
+            <span class="gauge-label">Speed</span>
+            <div class="gauge-number"><span id="val-speed">0.0</span> <span class="unit">km/h</span></div>
+            <div class="meter-bar"><div id="bar-speed" class="meter-fill" style="width: 0%;"></div></div>
+          </div>
+          <div class="gauge-box">
+            <span class="gauge-label">Engine RPM</span>
+            <div class="gauge-number"><span id="val-rpm">0</span> <span class="unit">RPM</span></div>
+            <div class="meter-bar"><div id="bar-rpm" class="meter-fill" style="width: 0%;"></div></div>
+          </div>
+          <div class="gauge-box">
+            <span class="gauge-label">Coolant Temp</span>
+            <div class="gauge-number"><span id="val-temp">25.0</span> <span class="unit">°C</span></div>
+            <div class="meter-bar"><div id="bar-temp" class="meter-fill" style="width: 0%;"></div></div>
+          </div>
+          <div class="gauge-box">
+            <span class="gauge-label">Road Vibration (SW-420)</span>
+            <div class="gauge-number"><span id="val-vib">0.080</span> <span class="unit">G</span></div>
+            <div class="meter-bar"><div id="bar-vib" class="meter-fill" style="width: 0%;"></div></div>
+          </div>
+          <div class="gauge-box">
+            <span class="gauge-label">Steering Angle</span>
+            <div class="gauge-number"><span id="val-steer">0.0</span> <span class="unit">deg</span></div>
+            <div class="meter-bar"><div id="bar-steer" class="meter-fill" style="width: 0%;"></div></div>
+          </div>
+          <div class="gauge-box">
+            <span class="gauge-label">Wheel Speed</span>
+            <div class="gauge-number"><span id="val-wheel">0.0</span> <span class="unit">km/h</span></div>
+            <div class="meter-bar"><div id="bar-wheel" class="meter-fill" style="width: 0%;"></div></div>
+          </div>
+        </div>
+
+        <div class="telemetry-footer">
+          <div>CAN ID: <strong id="val-can-id">0x100</strong></div>
+          <div>Sequence No: <strong id="val-seq">0</strong></div>
+          <div>Transit Latency: <strong id="val-timestamp">-- ms</strong></div>
+          <div>HMAC Status: <strong style="color: var(--color-success);">VALIDATED</strong></div>
+        </div>
+      </section>
+
+      <!-- Security Architecture Status Panel -->
+      <section class="panel security-panel">
+        <div class="panel-header">
+          <h2>Zero-Trust Security Pipeline</h2>
+          <span class="badge badge-success">ACTIVE</span>
+        </div>
+        <div class="pipeline-flow">
+          <div class="flow-step">
+            <div class="step-num">1</div>
+            <div class="step-info">
+              <strong>Payload Validation</strong>
+              <small>Syntactic length & sensor boundary checks</small>
+            </div>
+            <span class="step-status">ENFORCING</span>
+          </div>
+          <div class="flow-step">
+            <div class="step-num">2</div>
+            <div class="step-info">
+              <strong>HMAC-SHA256 Auth</strong>
+              <small>Zero-trust cryptographic authenticity</small>
+            </div>
+            <span class="step-status">ENFORCING</span>
+          </div>
+          <div class="flow-step">
+            <div class="step-num">3</div>
+            <div class="step-info">
+              <strong>Replay Protection</strong>
+              <small>Strict monotonic sequence counter</small>
+            </div>
+            <span class="step-status">ENFORCING</span>
+          </div>
+          <div class="flow-step">
+            <div class="step-num">4</div>
+            <div class="step-info">
+              <strong>ML Anomaly Detection</strong>
+              <small>Frequency, Flow & Kinematic profiling</small>
+            </div>
+            <span class="step-status">MONITORING</span>
+          </div>
+          <div class="flow-step">
+            <div class="step-num">5</div>
+            <div class="step-info">
+              <strong>Ethernet Forwarder</strong>
+              <small>Pushes validated telemetry (UDP 16000)</small>
+            </div>
+            <span class="step-status">CONNECTED</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Real-time Security Event & Incident Log Table -->
+    <section class="panel forensic-panel">
+      <div class="panel-header">
+        <h2>Live Security Event Log & Incident Forensics</h2>
+        <span class="badge" id="event-count-badge">0 Events Logged</span>
+      </div>
+      <div class="table-container">
+        <table class="logs-table">
+          <thead>
+            <tr>
+              <th>Timestamp (UTC)</th>
+              <th>CAN ID</th>
+              <th>Seq #</th>
+              <th>Gateway Decision</th>
+              <th>Attack Type</th>
+              <th>Severity</th>
+              <th>Forensic Details & Reasoning</th>
+            </tr>
+          </thead>
+          <tbody id="logs-tbody">
+            <tr>
+              <td colspan="7" class="empty-row">Waiting for telemetry and behavioral event generation...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

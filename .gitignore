@@ -1,0 +1,25 @@
+# AutoShieldX - Git Ignore
+build/
+bin/
+lib/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.log
+logs/*.log
+logs/*.json
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+*.swp
+.gradle/
+android/.gradle/
+android/.kotlin/
+android/app/build/
+android/local.properties
+firmware/pico2/build_ninja/
+firmware/pico2/build/

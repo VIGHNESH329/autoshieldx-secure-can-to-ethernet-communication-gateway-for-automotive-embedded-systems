@@ -1,0 +1,4 @@
+# Logs directory for AutoShieldX
+# Contains:
+# - autoshieldx_security.log (Structured forensic JSON lines)
+# - aws_mock_telemetry_batch.json (AWS CloudWatch/S3 mock payload batches)

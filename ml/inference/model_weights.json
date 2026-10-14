@@ -1,0 +1,24 @@
+{
+  "model_name": "AutoShieldX_Hybrid_Anomaly_Detector_v1",
+  "algorithm": "IsolationForest_RuleBoundaries",
+  "feature_names": [
+    "message_frequency_hz",
+    "can_id",
+    "speed_kmh",
+    "rpm",
+    "temperature_c",
+    "vibration_g",
+    "steering_deg",
+    "wheel_speed_kmh",
+    "sequence_delta",
+    "time_delta_ms"
+  ],
+  "anomaly_threshold": 0.65,
+  "dos_frequency_threshold_hz": 80.0,
+  "max_sequence_jump_threshold": 50.0,
+  "vibration_spike_threshold_g": 2.5,
+  "normal_frequency_mean_hz": 19.97,
+  "normal_frequency_max_hz": 23.57,
+  "trained_samples_count": 5750,
+  "note": "Model boundaries directly synchronizable with C++ EmbeddedMlDetector"
+}

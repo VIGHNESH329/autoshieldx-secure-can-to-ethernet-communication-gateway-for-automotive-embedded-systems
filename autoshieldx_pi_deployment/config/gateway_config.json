@@ -1,0 +1,44 @@
+{
+  "gateway": {
+    "device_name": "RaspberryPi4_SecureGateway",
+    "mode": "simulation",
+    "can_interface": "can0",
+    "simulated_can_port": 15000,
+    "ethernet_forward_ip": "11.12.11.191",
+    "ethernet_forward_port": 16000,
+    "enable_broadcast": true
+  },
+
+  "security": {
+    "shared_secret_hex": "4175746f536869656c64585f5365637265745f4b65795f32303236214155544f",
+    "hmac_algorithm": "HMAC-SHA256",
+    "mac_truncation_bytes": 8,
+    "max_allowed_sequence_gap": 50,
+    "replay_window_size": 1
+  },
+  "validation_rules": {
+    "allowed_can_ids": [
+      256,
+      512,
+      768,
+      1024
+    ],
+    "speed_kmh": { "min": 0.0, "max": 250.0 },
+    "rpm": { "min": 0.0, "max": 8000.0 },
+    "temperature_c": { "min": -40.0, "max": 125.0 },
+    "steering_angle_deg": { "min": -540.0, "max": 540.0 },
+    "wheel_speed_kmh": { "min": 0.0, "max": 260.0 },
+    "vibration_g": { "min": 0.0, "max": 5.0 },
+    "payload_length_bytes": 8
+  },
+  "ml_detection": {
+    "enabled": true,
+    "anomaly_threshold": 0.65,
+    "dos_frequency_threshold_hz": 80.0
+  },
+  "logging": {
+    "log_file_path": "logs/autoshieldx_security.log",
+    "log_to_console": true,
+    "min_severity": "INFO"
+  }
+}

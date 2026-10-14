@@ -1,0 +1,15 @@
+{
+  "aws_cloud_logging": {
+    "enabled": true,
+    "mock_mode": true,
+    "region": "us-east-1",
+    "s3_bucket": "autoshieldx-telemetry-logs",
+    "s3_prefix": "vehicle_logs/",
+    "cloudwatch_log_group": "/autoshieldx/telemetry",
+    "cloudwatch_stream": "secure_gateway_can0",
+    "batch_size": 25,
+    "flush_interval_seconds": 10,
+    "mock_output_file": "logs/aws_mock_telemetry_batch.json",
+    "note": "AWS CloudWatch destination: region us-east-1, log group /autoshieldx/telemetry."
+  }
+}
